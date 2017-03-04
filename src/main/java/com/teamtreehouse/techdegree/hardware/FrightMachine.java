@@ -1,26 +1,29 @@
 package com.teamtreehouse.techdegree.hardware;
 
-import com.example.accessory.Horn;
-import com.example.accessory.Strobe;
+import com.example.accessory.Accessory;
 import com.example.motion.MotionDetector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrightMachine extends MotionDetector {
 
-    private final Horn horn;
-    private final Strobe strobe;
-    private final Camera camera;
+    List<Accessory> accessories;
 
     public FrightMachine() {
-        horn = new Horn();
-        strobe = new Strobe();
-        camera = new Camera();
+        accessories = new ArrayList<>();
+    }
+
+    public void addObserver(Accessory accessory){
+        accessories.add(accessory);
+    }
+
+    public void removeObserver(Accessory accessory){
+        accessories.remove(accessory);
     }
     
     @Override
     public void onMotionDetected() {
-        // TODO: This is hardcoded, we should make it more extensible!  :(
-        horn.activate();
-        strobe.activate();
-        camera.snapPhotos(5);
+        accessories.stream().forEach(Accessory::activate);
     }
 }
